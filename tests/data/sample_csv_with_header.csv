@@ -1,0 +1,3 @@
+message_type,timestamp,concat_count,utterance
+SEND,20200427030101,1,Hello! Nice to meet you :)
+RECV,20200427030202,1,Good to see you!
