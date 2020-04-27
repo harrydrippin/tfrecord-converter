@@ -1,18 +1,22 @@
-[
-  {
-    "name": "first",
-    "feature_type": "str"
-  },
-  {
-    "name": "second",
-    "feature_type": "float"
-  },
-  {
-    "name": "third",
-    "feature_type": "int"
-  },
-  {
-    "name": "fourth",
-    "feature_type": "bool"
-  }
-]
+{
+  "dataset_path": "./tests/data/sample_tsv.tsv",
+  "tfrecord_path": "./tests/data.tfrecords",
+  "columns": [
+    {
+      "name": "first",
+      "feature_type": "str"
+    },
+    {
+      "name": "second",
+      "feature_type": "float"
+    },
+    {
+      "name": "third",
+      "feature_type": "int"
+    },
+    {
+      "name": "fourth",
+      "feature_type": "bool"
+    }
+  ]
+}

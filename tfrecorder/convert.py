@@ -1,28 +1,32 @@
 """Utility class for converting each feature into tf.train.Features."""
-from typing import List, Union
+from typing import List, Tuple, Union
 
 import tensorflow as tf
 
-from .datatype import Metadata, FeatureType
+from .config import Config
+from .datatype import FeatureType
 
 
 class Converter:
     @classmethod
-    def build_example(
-        cls, data_list: List[Union[str, bytes, float, int, bool]], metadatas: List[Metadata]
-    ) -> tf.train.Example:
+    def convert_one_file(cls, inp: Tuple[str, Config]):
+        file_path, config = inp
+        return 0
+
+    @classmethod
+    def build_example(cls, data_list: List[Union[str, bytes, float, int, bool]], config: Config) -> tf.train.Example:
         """
         Build tf.train.Example object by given data list and metadata.
 
         :param data_list: List of target data Tensor
-        :param metadatas: List of :class:`<tfrecorder.converter.Metadata>`
+        :param metadatas: List of :class:`<tfrecorder.converter.Column>`
         :return: tf.train.Example object
         """
-        if len(data_list) != len(metadatas):
+        if len(data_list) != len(config.columns):
             raise ValueError("Length of data list should be equal with length of metadata list.")
 
         feature = {
-            metadata.name: cls.featurize(data, metadata.feature_type) for data, metadata in zip(data_list, metadatas)
+            column.name: cls.featurize(data, column.feature_type) for data, column in zip(data_list, config.columns)
         }
 
         return tf.train.Example(features=tf.train.Features(feature=feature))

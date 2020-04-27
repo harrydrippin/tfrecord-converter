@@ -1,12 +1,18 @@
 import logging
-from typing import NamedTuple
+from typing import List, NamedTuple
+
+from .datatype import Column
 
 
 class Config(NamedTuple):
-    #: Origin dataset path
+    #: Metadata file path
+    metadata_path: str
+    #: Dataset path
     dataset_path: str
-    #: Destination TFRecord path
+    #: TFRecord path
     tfrecord_path: str
+    #: Column information
+    columns: List[Column]
     #: Compression type
     compression_type: str
     #: Google application credentials path
@@ -15,6 +21,10 @@ class Config(NamedTuple):
     only_convert: bool
     #: Only upload
     only_upload: bool
+    #: Max pool size
+    max_pool_size: int
+    #: Chunksize
+    chunksize: int
 
     def get_exec_mode(self) -> str:
         modes = ("Convert & Upload", "Upload", "Convert")
@@ -26,4 +36,4 @@ class Config(NamedTuple):
         logging.info(f" * Dataset Path: {self.dataset_path}")
         logging.info(f" * TFRecord Path: {self.tfrecord_path}")
         logging.info(f" * Compression Type: {self.compression_type}")
-        logging.info(f" * Google Application Credentials: {self.google_application_credentials}")
+        logging.info(f" * Multiprocessing: Max {self.max_pool_size} cores (chunksize {self.chunksize})")

@@ -13,5 +13,5 @@ from tfrecorder.config import Config
     ids=["Convert & Upload", "Only Convert", "Only Upload"],
 )
 def test_get_exec_mode(only_convert, only_upload, expected):
-    config = Config("", "", "", "", only_convert, only_upload)
+    config = Config("", "", "", [], "", "", only_convert, only_upload, 0, 0)
     assert expected == config.get_exec_mode()

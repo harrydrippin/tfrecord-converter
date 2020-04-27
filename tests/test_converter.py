@@ -1,8 +1,9 @@
 import pytest
 import tensorflow as tf
 
+from tfrecorder.config import Config
 from tfrecorder.convert import Converter
-from tfrecorder.datatype import FeatureType, Metadata
+from tfrecorder.datatype import Column, FeatureType
 
 
 @pytest.fixture(scope="session")
@@ -30,24 +31,35 @@ def test_featurize(features, tensor, feature_type, expected_index):
 
 
 @pytest.mark.parametrize(
-    "data_list, metadatas",
+    "data_list, columns",
     [
         pytest.param(
             ["String", 4.5, 1, True],
-            [
-                Metadata("first", FeatureType.STRING),
-                Metadata("second", FeatureType.FLOAT),
-                Metadata("third", FeatureType.INT),
-                Metadata("fourth", FeatureType.BOOL),
-            ],
+            Config(
+                "",
+                "",
+                "",
+                [
+                    Column("first", FeatureType.STRING),
+                    Column("second", FeatureType.FLOAT),
+                    Column("third", FeatureType.INT),
+                    Column("fourth", FeatureType.BOOL),
+                ],
+                "",
+                "GZIP",
+                False,
+                False,
+                8,
+                10,
+            ),
         )
     ],
     ids=["Base"],
 )
-def test_build_example(data_list, metadatas, features):
+def test_build_example(data_list, columns, features):
     example = tf.train.Example(
         features=tf.train.Features(
             feature={"first": features[0], "second": features[1], "third": features[2], "fourth": features[3]}
         )
     )
-    assert example == Converter.build_example(data_list, metadatas)
+    assert example == Converter.build_example(data_list, columns)
