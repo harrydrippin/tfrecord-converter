@@ -1,7 +1,7 @@
 import argparse
-import sys
 import logging
 import os
+import sys
 
 from .config import Config
 

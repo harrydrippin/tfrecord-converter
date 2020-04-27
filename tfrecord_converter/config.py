@@ -1,6 +1,5 @@
-from typing import NamedTuple
-import enum
 import logging
+from typing import NamedTuple
 
 
 class Config(NamedTuple):

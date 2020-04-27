@@ -1,7 +1,8 @@
 """Utility class for converting each feature into tf.train.Features."""
-import tensorflow as tf
-from typing import Union, NamedTuple, List
 import enum
+from typing import List, NamedTuple, Union
+
+import tensorflow as tf
 
 
 class FeatureType(enum.Enum):

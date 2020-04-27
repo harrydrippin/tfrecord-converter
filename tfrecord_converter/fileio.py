@@ -1,6 +1,7 @@
-import tensorflow as tf
-from typing import List
 import glob
+from typing import List
+
+import tensorflow as tf
 
 
 def get_filenames(glob_string: str) -> List[str]:
