@@ -4,6 +4,7 @@ import os
 import sys
 
 from .config import Config
+from .fileio import get_filenames
 
 # Logging configuration
 logging.basicConfig(format="[%(asctime)s] %(message)s", datefmt="%Y/%m/%d %H:%M:%S", level=logging.INFO)
@@ -48,6 +49,13 @@ parser.add_argument(
     default="",
     help="Google Application Credential JSON file path. Will use environment variable as a default.",
 )
+parser.add_argument(
+    "--pool-size",
+    dest="pool_size",
+    type=int,
+    default=-1,
+    help="Pool size for multiprocessing. Not using multiprocessing by default.",
+)
 
 
 def parse_arguments() -> Config:
@@ -75,7 +83,6 @@ def parse_arguments() -> Config:
 
 
 def main():
-    logging.info("Initializing")
     try:
         config: Config = parse_arguments()
     except Exception as e:
@@ -87,7 +94,11 @@ def main():
     confirm = input("[?] Do you want to proceed? (Type 'Y' to start) > ")
     if confirm != "Y":
         logging.info("Abort.")
-        return 0
+        return 1
+
+    logging.info(f"Obtaining filenames from dataset path...")
+    filenames = get_filenames(config.dataset_path)
+    logging.info(f"{len(filenames)} files were found")
 
 
 if __name__ == "__main__":

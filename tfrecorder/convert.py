@@ -1,21 +1,9 @@
 """Utility class for converting each feature into tf.train.Features."""
-import enum
-from typing import List, NamedTuple, Union
+from typing import List, Union
 
 import tensorflow as tf
 
-
-class FeatureType(enum.Enum):
-    STRING = "str"
-    FLOAT = "float"
-    BOOL = "bool"
-    INT = "int"
-    BYTES = "bytes"
-
-
-class Metadata(NamedTuple):
-    name: str
-    feature_type: FeatureType
+from .datatype import Metadata, FeatureType
 
 
 class Converter:

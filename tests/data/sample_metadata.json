@@ -1,0 +1,18 @@
+[
+  {
+    "name": "first",
+    "feature_type": "str"
+  },
+  {
+    "name": "second",
+    "feature_type": "float"
+  },
+  {
+    "name": "third",
+    "feature_type": "int"
+  },
+  {
+    "name": "fourth",
+    "feature_type": "bool"
+  }
+]

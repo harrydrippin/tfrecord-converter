@@ -1,7 +1,8 @@
 import pytest
 import tensorflow as tf
 
-from tfrecorder.convert import Converter, FeatureType, Metadata
+from tfrecorder.convert import Converter
+from tfrecorder.datatype import FeatureType, Metadata
 
 
 @pytest.fixture(scope="session")

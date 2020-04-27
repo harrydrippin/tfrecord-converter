@@ -1,3 +1,4 @@
 from . import entrypoint
+import sys
 
-entrypoint.main()
+sys.exit(entrypoint.main())

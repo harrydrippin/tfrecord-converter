@@ -12,15 +12,8 @@ def expected_file_output():
 
 
 def test_get_filenames():
-    expected = set(
-        [
-            "./tests/data/sample_csv.csv",
-            "./tests/data/sample_csv_with_header.csv",
-            "./tests/data/sample_tsv.tsv",
-            "./tests/data/sample_tsv_with_header.tsv",
-        ]
-    )
-    assert expected == set(get_filenames("./tests/data/*.*"))
+    expected = set(["./tests/data/sample_tsv.tsv", "./tests/data/sample_tsv_with_header.tsv",])
+    assert expected == set(get_filenames("./tests/data/*.tsv"))
 
 
 @pytest.mark.parametrize(
