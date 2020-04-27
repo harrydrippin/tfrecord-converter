@@ -27,7 +27,7 @@ class Converter:
         Build tf.train.Example object by given data list and metadata.
 
         :param data_list: List of target data Tensor
-        :param metadatas: List of :class:`<tfrecord_converter.converter.Metadata>`
+        :param metadatas: List of :class:`<tfrecorder.converter.Metadata>`
         :return: tf.train.Example object
         """
         if len(data_list) != len(metadatas):
@@ -45,7 +45,7 @@ class Converter:
         Featurize one Tensor into tf.train.Feature.
 
         :param tensor: Target Tensor
-        :param feature_type: :class:`<tfrecord_converter.converter.FeatureType>`
+        :param feature_type: :class:`<tfrecorder.converter.FeatureType>`
         :returns: tf.train.Feature object
         """
         if feature_type in (FeatureType.STRING, FeatureType.BYTES):

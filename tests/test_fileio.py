@@ -1,6 +1,6 @@
 import pytest
 
-from tfrecord_converter.fileio import get_filenames, read_file
+from tfrecorder.fileio import get_filenames, read_file
 
 
 @pytest.fixture

@@ -1,5 +1,5 @@
 {
-  "include": ["tfrecord_converter"],
+  "include": ["tfrecorder"],
   "venvPath": "env",
 
   "reportUnknownVariableType": true,

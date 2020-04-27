@@ -25,7 +25,7 @@ jobs:
           pip install -r requirements.txt -r requirements-dev.txt
       - name: Test with pytest
         run: |
-          black --check tfrecord_converter tests
-          flake8 tfrecord_converter
-          isort -rc -c tfrecord_converter tests
+          black --check tfrecorder tests
+          flake8 tfrecorder
+          isort -rc -c tfrecorder tests
           pytest

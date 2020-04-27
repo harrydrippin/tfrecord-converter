@@ -1,6 +1,6 @@
 import pytest
 
-from tfrecord_converter.config import Config
+from tfrecorder.config import Config
 
 
 @pytest.mark.parametrize(
