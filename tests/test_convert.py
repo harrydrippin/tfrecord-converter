@@ -3,7 +3,7 @@ import tensorflow as tf
 
 from tfrecorder.config import Config
 from tfrecorder.convert import Converter
-from tfrecorder.datatype import Column, FeatureType
+from tfrecorder.datatype import FeatureType
 
 
 @pytest.fixture(scope="session")
@@ -20,9 +20,9 @@ def features():
     "tensor, feature_type, expected_index",
     [
         pytest.param("String", FeatureType.STRING, 0),
-        pytest.param(4.5, FeatureType.FLOAT, 1),
-        pytest.param(1, FeatureType.INT, 2),
-        pytest.param(True, FeatureType.BOOL, 3),
+        pytest.param("4.5", FeatureType.FLOAT, 1),
+        pytest.param("1", FeatureType.INT, 2),
+        pytest.param("true", FeatureType.BOOL, 3),
     ],
     ids=["String", "Float", "Int", "Bool"],
 )
@@ -31,35 +31,13 @@ def test_featurize(features, tensor, feature_type, expected_index):
 
 
 @pytest.mark.parametrize(
-    "data_list, columns",
-    [
-        pytest.param(
-            ["String", 4.5, 1, True],
-            Config(
-                "",
-                "",
-                "",
-                [
-                    Column("first", FeatureType.STRING),
-                    Column("second", FeatureType.FLOAT),
-                    Column("third", FeatureType.INT),
-                    Column("fourth", FeatureType.BOOL),
-                ],
-                "",
-                "GZIP",
-                False,
-                False,
-                8,
-                10,
-            ),
-        )
-    ],
-    ids=["Base"],
+    "data_list", [pytest.param(["String", "4.5", "1", "True"])], ids=["Base"],
 )
-def test_build_example(data_list, columns, features):
+def test_build_example(data_list, features, config):
     example = tf.train.Example(
         features=tf.train.Features(
             feature={"first": features[0], "second": features[1], "third": features[2], "fourth": features[3]}
         )
     )
-    assert example == Converter.build_example(data_list, columns)
+    config = Config(**config)
+    assert example == Converter.build_example(data_list, config)

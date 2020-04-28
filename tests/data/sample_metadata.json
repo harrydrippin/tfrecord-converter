@@ -1,22 +1,23 @@
 {
   "dataset_path": "./tests/data/sample_tsv.tsv",
-  "tfrecord_path": "./tests/data.tfrecords",
+  "skip_header": false,
+  "tfrecord_path": "./tests/data.tfrecords/",
   "columns": [
     {
-      "name": "first",
+      "name": "message_type",
       "feature_type": "str"
     },
     {
-      "name": "second",
-      "feature_type": "float"
+      "name": "timestamp",
+      "feature_type": "str"
     },
     {
-      "name": "third",
+      "name": "concat_count",
       "feature_type": "int"
     },
     {
-      "name": "fourth",
-      "feature_type": "bool"
+      "name": "utterance",
+      "feature_type": "str"
     }
   ]
 }

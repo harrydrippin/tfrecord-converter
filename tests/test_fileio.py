@@ -12,7 +12,7 @@ def expected_file_output():
 
 
 def test_get_filenames():
-    expected = set(["./tests/data/sample_tsv.tsv", "./tests/data/sample_tsv_with_header.tsv",])
+    expected = set(["./tests/data/sample_tsv.tsv", "./tests/data/sample_tsv_with_header.tsv"])
     assert expected == set(get_filenames("./tests/data/*.tsv"))
 
 

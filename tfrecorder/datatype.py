@@ -1,6 +1,6 @@
 import enum
 import json
-from typing import List, NamedTuple, Tuple
+from typing import Dict, List, NamedTuple, Union
 
 
 class FeatureType(enum.Enum):
@@ -16,12 +16,9 @@ class Column(NamedTuple):
     feature_type: FeatureType
 
 
-def parse_metadata(file_path: str) -> Tuple[str, str, List[Column]]:
+def parse_metadata(file_path: str) -> Dict[str, Union[str, List[Column]]]:
     """Parse JSON file by given path and generate a list of metadata."""
     with open(file_path, "r") as f:
         obj = json.load(f)
-    return (
-        obj["dataset_path"],
-        obj["tfrecord_path"],
-        [Column(column["name"], FeatureType(column["feature_type"])) for column in obj["columns"]],
-    )
+    obj["columns"] = [Column(column["name"], FeatureType(column["feature_type"])) for column in obj["columns"]]
+    return obj

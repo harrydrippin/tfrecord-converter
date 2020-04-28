@@ -1,20 +1,27 @@
 """Utility class for converting each feature into tf.train.Features."""
+import logging
 from typing import List, Tuple, Union
 
 import tensorflow as tf
 
 from .config import Config
 from .datatype import FeatureType
+from .fileio import read_file
 
 
 class Converter:
     @classmethod
-    def convert_one_file(cls, inp: Tuple[str, Config]):
+    def convert_one_file(cls, inp: Tuple[str, Config]) -> Tuple[List[tf.train.Example], int]:
         file_path, config = inp
-        return 0
+        try:
+            parsed = read_file(file_path, config.mode, skip_header=config.skip_header, max_error=config.max_error)
+        except ValueError as e:
+            logging.error(e)
+
+        return [cls.build_example(line, config) for line in parsed], len(parsed)
 
     @classmethod
-    def build_example(cls, data_list: List[Union[str, bytes, float, int, bool]], config: Config) -> tf.train.Example:
+    def build_example(cls, data_list: List[str], config: Config) -> tf.train.Example:
         """
         Build tf.train.Example object by given data list and metadata.
 
@@ -32,20 +39,24 @@ class Converter:
         return tf.train.Example(features=tf.train.Features(feature=feature))
 
     @classmethod
-    def featurize(cls, tensor: Union[str, bytes, float, int, bool], feature_type: FeatureType) -> tf.train.Feature:
+    def featurize(cls, value: str, feature_type: FeatureType) -> tf.train.Feature:
         """
         Featurize one Tensor into tf.train.Feature.
 
-        :param tensor: Target Tensor
+        :param value: Target value
         :param feature_type: :class:`<tfrecorder.converter.FeatureType>`
         :returns: tf.train.Feature object
         """
         if feature_type in (FeatureType.STRING, FeatureType.BYTES):
-            return cls._bytes_feature(tensor)
+            return cls._bytes_feature(value)
         if feature_type == FeatureType.FLOAT:
-            return cls._float_feature(tensor)
-        if feature_type in (FeatureType.INT, FeatureType.BOOL):
-            return cls._int64_feature(tensor)
+            return cls._float_feature(float(value))
+        if feature_type == FeatureType.INT:
+            return cls._int64_feature(int(value))
+        if feature_type == FeatureType.BOOL:
+            # Only supports `0`, `1`, `True`, `true`, `False`, `false`
+            value = value.strip().lower()
+            return cls._int64_feature(value in ("1", "true"))
         raise ValueError(f"Got unexpected feature type: {feature_type}")
 
     @staticmethod
