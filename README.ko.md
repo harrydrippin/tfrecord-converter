@@ -1,36 +1,33 @@
 # TFRecorder
 
-> Simple tool which converts your NLP dataset to TFRecord file and uploads to Cloud Storage for GPU/TPU training
+> NLP Dataset을 TFRecord로 바꾸고, GPU/TPU 학습을 위해 Cloud Storage에 올려주는 CLI 도구
 
-- [Korean (한국어) README](https://github.com/harrydrippin/tfrecorder/blob/master/README.ko.md)
+## 핵심 기능
 
-## Key Feature
+- [x] CSV, TSV 파일들을 Metadata를 바탕으로 TFRecord로 변환
+- [x] TensorFlow에서 TPU로 학습할 때 유용하도록 변환한 파일들을 Google Cloud Storage로 업로드
+- [ ] `asyncio.Queue`를 사용해서 위 두 개의 과정이 동시에 이루어지도록 함
 
-- [x] Generate TFRecord files by given CSV, TSV files and Metadata
-- [x] Upload to Google Cloud Storage for convenient usage while using TPU with TensorFlow
-- [ ] Do convert and upload simultaneously by using `asyncio.Queue`
-
-## Metadata File Usage
+## Metadata 파일 작성 방법
 
 ```json
 {
-  "name": "<Name of the dataset. Will be used for TFRecord file name and GCS bucket name.>",
+  "name": "<Dataset의 이름으로, TFRecord 파일의 이름과 Google Cloud Storage Bucket의 이름으로 사용됩니다.>",
   "convert": {
-    "from_path": "<Path of the dataset, by glob pattern.>",
-    "file_type": "<Type of the file. Can use 'csv' or 'tsv'.>",
-    "skip_header": false,
-    "to_path": "<Path to store TFRecord files.>"
+    "from_path": "<변환할 Dataset의 경로입니다. Glob 패턴으로 기술합니다.>",
+    "file_type": "<파일의 형식입니다. 'csv'나 'tsv'로 사용합니다.>",
+    "skip_header": false
   },
   "columns": [
     {
-      "name": "<Name of the column>",
-      "feature_type": "<Type of the column value. 'str', 'bool', 'int', 'float'>"
+      "name": "<열의 이름입니다.>",
+      "feature_type": "<열의 자료형입니다. 'str', 'bool', 'int', 'float'>"
     }
   ]
 }
 ```
 
-## Tool Usage
+## 도구 사용 방법
 
 ```text
 $ tfr -h
@@ -72,9 +69,9 @@ optional arguments:
                         Chunksize for multiprocessing. Use 10 by default.
 ```
 
-## Test
+## 테스트
 
-To test this, run the script below on your machine.
+이 도구를 테스트하려면, 프로젝트를 Clone하신 후 다음 내용을 입력하십시오.
 
 ```bash
 python setup.py develop
