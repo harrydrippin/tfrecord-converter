@@ -26,8 +26,9 @@ def features():
     ],
     ids=["String", "Float", "Int", "Bool"],
 )
-def test_featurize(features, tensor, feature_type, expected_index):
-    assert features[expected_index] == Converter.featurize(tensor, feature_type)
+def test_featurize(features, tensor, feature_type, expected_index, config):
+    converter = Converter(Config(**config))
+    assert features[expected_index] == converter.featurize(tensor, feature_type)
 
 
 @pytest.mark.parametrize(
@@ -39,5 +40,5 @@ def test_build_example(data_list, features, config):
             feature={"first": features[0], "second": features[1], "third": features[2], "fourth": features[3]}
         )
     )
-    config = Config(**config)
-    assert example == Converter.build_example(data_list, config)
+    converter = Converter(Config(**config))
+    assert example == converter.build_example(data_list)

@@ -10,18 +10,18 @@ def get_filenames(glob_string: str) -> List[str]:
     return glob.glob(glob_string, recursive=True)
 
 
-def read_file(path: str, mode: str, skip_header: bool = False, max_error: int = -1) -> List[List[str]]:
+def read_file(path: str, file_type: str, skip_header: bool = False, max_error: int = -1) -> List[List[str]]:
     """
-    Read the file by given mode and path.
+    Read the file by given file_type and path.
 
     :param path: File path.
-    :param mode: File parsing mode. e.g. csv, tsv
+    :param file_type: File parsing file_type. e.g. csv, tsv
     :param skip_header: Whether skip the header or not
     :param max_error: Max error count to tolerate
     """
-    mode = mode.lower()
-    if mode not in ("csv", "tsv"):
-        raise ValueError(f"File mode should be 'csv' or 'tsv', not {mode}")
+    file_type = file_type.lower()
+    if file_type not in ("csv", "tsv"):
+        raise ValueError(f"File type should be 'csv' or 'tsv', not {file_type}")
     with open(path, "r") as f:
         raw = f.read().split("\n")
         if skip_header:
@@ -29,7 +29,7 @@ def read_file(path: str, mode: str, skip_header: bool = False, max_error: int = 
         if raw[-1] == "":
             raw = raw[:-1]
 
-    delimiter = "," if mode == "csv" else "\t"
+    delimiter = "," if file_type == "csv" else "\t"
 
     result = []
     error_count = 0

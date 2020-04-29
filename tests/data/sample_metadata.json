@@ -1,7 +1,11 @@
 {
-  "dataset_path": "./tests/data/sample_tsv.tsv",
-  "skip_header": false,
-  "tfrecord_path": "./tests/data.tfrecords/",
+  "name": "sample_dataset",
+  "convert": {
+    "from_path": "./tests/data/sample_tsv.tsv",
+    "file_type": "tsv",
+    "skip_header": false,
+    "to_path": "./tests/data.tfrecords/"
+  },
   "columns": [
     {
       "name": "message_type",
